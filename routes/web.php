@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ProductController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get("/scrape-product", function () {
+    $key1 = "keyboard";
+    $key2 = "mouse";
+    // dd(config('queue.default'));
+    // dispatch(new App\Jobs\DataScraping\ShopeeProduct($key1))->onQueue("scrape-shopee-product");
 });
