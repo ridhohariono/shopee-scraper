@@ -22,5 +22,6 @@ Route::post('register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('products', [ProductController::class, 'index']);
-    Route::post("/products/scrape", [ProductController::class, 'scrape']);
+    Route::get('products/count', [ProductController::class, 'productCount']);
+    Route::post("products/scrape", [ProductController::class, 'scrape']);
 });

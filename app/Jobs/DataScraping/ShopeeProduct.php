@@ -70,7 +70,7 @@ class ShopeeProduct implements ShouldQueue
                 }
                 Log::info('Storing (' . count($result) . ') products into databse');
                 // Register instert query to queue
-                dispatch(new InsertProduct($result))->delay(10);
+                dispatch(new InsertProduct($result))->onQueue('insert')->delay(10);
                 // if ($newest > 10) {
                 //     $req = false;
                 // }

@@ -1,7 +1,11 @@
 const ajax = new XMLHttpRequest();
 const BASE_URL = window.location.origin
 const AUTH_URL = BASE_URL + "/api/login"
-console.log(BASE_URL)
+const TOKEN = sessionStorage.getItem("token")
+
+if (TOKEN) {
+    window.location.replace(BASE_URL + "/")
+}
 
 function Auth() {
     let submit = document.getElementById("submit")

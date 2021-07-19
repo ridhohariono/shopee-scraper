@@ -40,7 +40,7 @@ class ProductScraperStart extends Command
     {
         $keywords = $this->argument("keyword");
         foreach ($keywords as $keyword) {
-            ShopeeProduct::dispatch($keyword)->delay(10);
+            ShopeeProduct::dispatch($keyword)->onQueue('scrape')->delay(10);
         }
         return 0;
     }

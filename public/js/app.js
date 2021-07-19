@@ -7,46 +7,38 @@ if (!TOKEN) {
     window.location.replace(BASE_URL + "/login");
 }
 
-function Auth() {
-    let submit = document.getElementById("submit")
-    let inputs = document.getElementsByTagName("input")
-    submit.addEventListener("click", function(e) {
-        var data = JSON.stringify({
-            email: inputs[0].value,
-            password: inputs[1].value,
-        });
-        ajax.onloadstart = function() {
-            inputStatus(inputs, true)
-            submit.setAttribute("disabled", "disabled")
-        }
-        ajax.onloadend = function() {
-            inputStatus(inputs, false)
-            submit.removeAttribute("disabled")
-        }
-        ajax.open("POST", AUTH_URL, true);
-        ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        ajax.onload = function() {
-            let response = JSON.parse(this.response)
-            if (response.error) {
-                let errors = response.error
-                for (var key in errors) {
-                    let err_element = document.getElementById(key + "-error")
-                    err_element.classList.add("text-danger")
-                    err_element.textContent = errors[key][0]
-                }
-            } else if (!response.success) {
-                let err_element = document.getElementById("invalid")
-                err_element.classList.add("text-danger")
-                err_element.textContent = response.message
-            }
-        };
-        ajax.send(data);
-    })
+function signout() {
+    let btn = document.getElementById("sign-out")
+    sessionStorage.removeItem("token")
+    window.location.replace(BASE_URL + "/login");
 }
 
-function inputStatus(inputs, status) {
+function inputStatus(status) {
+    let inputs = document.getElementsByTagName("input")
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = status;
     }
 }
-Auth()
+
+
+function formatRupiah(angka, prefix) {
+    angka = angka.toString().substring(0, angka.toString().length - 5);
+    // console.log(str)
+    var number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+}
+
+
+function showLoading(status) {
+    $('body').loading(status);
+}

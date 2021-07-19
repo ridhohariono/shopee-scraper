@@ -7,6 +7,7 @@ use App\Jobs\DataScraping\ShopeeProduct;
 use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Datatables;
 
 class ProductController extends Controller
 {
@@ -19,6 +20,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        if (request()->ajax()) {
+            return datatables()->of(Product::select('*'))
+                ->addColumn('action', 'company-action')
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
         $limit = $request->limit && $request->limit <= 100 ? $request->limit : 20;
         $data = Product::paginate($limit);
         return $this->data(200, false, $data);
@@ -39,9 +47,14 @@ class ProductController extends Controller
             return $this->message(400, true, $validator->errors());
         }
         foreach ($request->keywords as $keyword) {
-            dispatch(new ShopeeProduct($keyword));
+            dispatch(new ShopeeProduct($keyword))->onQueue('scrape');
         }
         return $this->message(200, false, "keywords are successfully registered in Queue");
+    }
+
+    public function productCount()
+    {
+        return $this->data(200, false, Product::count());
     }
 
     private function message($code, $error, $message)
