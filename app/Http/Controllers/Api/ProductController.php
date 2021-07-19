@@ -19,7 +19,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request->limit && $request->limit < 100 ? $request->limit : 20;
+        $limit = $request->limit && $request->limit <= 100 ? $request->limit : 20;
         $data = Product::paginate($limit);
         return $this->data(200, false, $data);
     }

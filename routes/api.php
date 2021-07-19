@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [AuthController::class, 'authenticate']);
+Route::post('register', [AuthController::class, 'register']);
+
+Route::group(['middleware' => ['jwt.verify']], function () {
+    Route::get('logout', [ApiController::class, 'logout']);
+    Route::get('products', [ProductController::class, 'index']);
+    Route::post("/products/scrape", [ProductController::class, 'scrape']);
 });
-Route::get("/", [ProductController::class, 'index']);
-Route::post("/scrape-product", [ProductController::class, 'scrape']);

@@ -41,7 +41,7 @@ class ShopeeProduct implements ShouldQueue
     {
         Log::info('Scrape shopee product');
         $req = True;
-        $limit = 10;
+        $limit = 100;
         $newest = 0;
         Log::info('Scrape using keyword: ' . $this->keyword);
         while ($req == True) {
@@ -71,9 +71,9 @@ class ShopeeProduct implements ShouldQueue
                 Log::info('Storing (' . count($result) . ') products into databse');
                 // Register instert query to queue
                 dispatch(new InsertProduct($result))->delay(10);
-                if ($newest > 10) {
-                    $req = false;
-                }
+                // if ($newest > 10) {
+                //     $req = false;
+                // }
                 // Update newest value
                 $newest += $limit;
             } else {
