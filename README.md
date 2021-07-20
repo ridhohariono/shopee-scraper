@@ -1,3 +1,6 @@
+##Shopee Scraper
+![Alt text](/Screenshot_4.png?raw=true "Shopee Scraper")
+
 ## Installation
 - ```git clone https://github.com/ridhohariono/shopee-scraper/```
 - ```composer install```
