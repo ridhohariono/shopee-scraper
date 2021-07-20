@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>How To Create Simple Login Form Design In Bootstrap 5</title>
+    <title>Shopee Scraper</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
@@ -38,9 +38,6 @@
                         </div>
                     </form>
                     <hr class="mt-4">
-                    <div class="col-12">
-                        <p class="text-center mb-0">Have not account yet? <a href="#">Signup</a></p>
-                    </div>
                 </div>
             </div>
         </div>
